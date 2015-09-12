@@ -1,0 +1,97 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf8" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/flatly/bootstrap.min.css" />
+<!-- <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/journal/bootstrap.min.css" /> -->
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<style>
+img {
+    max-width: 100%;
+    height: 100px;
+}
+.navbar {
+    border-radius: 0;
+}
+#footer {
+    background-color: #333333;
+    line-height: 20px;
+    padding: 30px 20px;
+    margin-top: 60px;
+}
+.alert-debug {
+    background-color: #ccc;
+    border-color: #ccc;
+    color: #333;
+}
+</style>
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="//maps.googleapis.com/maps/api/js"></script>
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url "blog:index" %}">Pystagram Blog</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-top" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div id="navbar-top" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {% block navbar_left %}
+                {% endblock %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% block navbar_right %}
+                    {% if not user.is_authenticated %}
+                        <li><a href="/accounts/login/?next={{ request.path }}">로그인</a></li>
+                        <li><a href="/accounts/signup/?next={{ request.path }}">회원가입</a></li>
+                    {% else %}
+                        <li><a href="/accounts/logout/?next={{ request.path }}">로그아웃</a></li>
+                    {% endif %}
+                {% endblock %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+<div id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 text-muted">
+                파이썬 웹프레임워크인 <a href="http://djangoproject.com" target="_blank">Django</a> 로 만들었습니다.<br/>
+            </div>
+            <div class="col-sm-6 text-right">
+                <a href="http://www.fastcampus.co.kr/" target="_blank">with fastcampus</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

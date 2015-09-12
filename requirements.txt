@@ -1,0 +1,8 @@
+Django
+Pillow
+django-bootstrap3
+django-debug-toolbar
+uwsgi
+ipython
+sorl-thumbnail
+psycopg2
